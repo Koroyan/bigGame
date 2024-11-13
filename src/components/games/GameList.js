@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import "../../styles/GameList.css"; // Custom styles
 
 const GameList = () => {
@@ -33,11 +33,33 @@ const GameList = () => {
   ]);
 
   const isLoggedIn = () => {
-    return true;//localStorage.getItem("token") !== null;kfvdo
+    return true; //localStorage.getItem("token") !== null;
   };
+
+  // State for controlling the visibility of the dialog
+  const [isDialogVisible, setIsDialogVisible] = useState(true);
+
+  useEffect(() => {
+    // Hide the dialog after 5 seconds
+    const timer = setTimeout(() => {
+      setIsDialogVisible(false);
+    }, 7000);
+
+    // Cleanup on component unmount
+    return () => clearTimeout(timer);
+  }, []);
 
   return (
     <div className="game-list-container">
+      {/* Display the custom dialog if the state is true */}
+      {isDialogVisible && (
+        <div className="custom-alert">
+          <p>
+            💖 Tes Vonca? Grigor@ qez shata sirum im hamov axjik 💖
+          </p>
+        </div>
+      )}
+
       <h2 className="game-list-title">🔥🔥 Play & Win Big! 🔥🔥</h2>
       <p className="game-list-description">
         Choose your favorite game and join now for a chance to win life-changing prizes! 🏆

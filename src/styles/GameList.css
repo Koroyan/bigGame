@@ -164,3 +164,37 @@
     max-height: 180px;
   }
 }
+
+.custom-alert {
+  position: fixed;
+  top: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  background-color: rgba(255, 255, 255, 0.9);
+  color: #ff4081;
+  padding: 20px;
+  font-size: 18px;
+  border-radius: 10px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  text-align: center;
+  z-index: 1000; /* Ensures it is above other content */
+  max-width: 90%;
+  font-family: 'Arial', sans-serif;
+}
+
+.custom-alert p {
+  margin: 0;
+  font-weight: bold;
+  line-height: 1.5;
+}
+
+.custom-alert p::before {
+  content: "💖";
+  margin-right: 10px;
+}
+
+.custom-alert p::after {
+  content: "💖";
+  margin-left: 10px;
+}
+
