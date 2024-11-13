@@ -1,0 +1,80 @@
+.container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background-color: #f5f5f5;
+}
+
+.card {
+    background-color: #fff;
+    padding: 30px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    width: 300px; /* Default width for larger screens */
+}
+
+.title {
+    font-size: 24px;
+    color: #333;
+    margin-bottom: 10px;
+}
+
+.cost {
+    font-size: 20px;
+    color: #ff9800;
+    margin-bottom: 10px;
+}
+
+.timer {
+    font-size: 18px;
+    color: #f44336;
+    margin-bottom: 10px;
+}
+
+.participants {
+    font-size: 18px;
+    color: #666;
+    margin-bottom: 20px;
+}
+
+.join-button {
+    padding: 10px 20px;
+    background-color: #4caf50;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    font-size: 16px;
+    cursor: pointer;
+}
+
+.join-button:hover {
+    background-color: #45a049;
+}
+
+/* Mobile Styles */
+@media (max-width: 768px) {
+    .card {
+        width: 90%; /* Full width on mobile */
+        padding: 20px; /* Reduced padding for mobile */
+    }
+
+    .title {
+        font-size: 20px; /* Smaller title for mobile */
+    }
+
+    .cost {
+        font-size: 18px; /* Smaller cost size for mobile */
+    }
+
+    .timer,
+    .participants {
+        font-size: 16px; /* Smaller font size for timer and participants */
+    }
+
+    .join-button {
+        padding: 8px 15px; /* Reduced padding for button */
+        font-size: 14px; /* Smaller font size for button */
+    }
+}

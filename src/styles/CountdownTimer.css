@@ -1,0 +1,222 @@
+/* General Styles */
+.countdown-timer {
+    background: linear-gradient(135deg, #ff6a00, #ee0979);
+    color: white;
+    text-align: center;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+    max-width: 100%; /* Ensures full width within the container */
+    margin: 20px auto;
+    box-sizing: border-box;
+    animation: fadeIn 2s ease-out;
+    overflow: hidden;
+  }
+  
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
+  }
+  
+  /* Button Styles */
+  .cta-button {
+    padding: 12px 25px;
+    font-size: 1.1rem;
+    background-color: #ffeb3b;
+    color: #333;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-weight: bold;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+  }
+  
+  .cta-button:hover {
+    background-color: #ff9800;
+    transform: scale(1.05);
+  }
+  
+  .cta-button.hovered {
+    animation: pulseButton 0.5s infinite alternate;
+  }
+  
+  @keyframes pulseButton {
+    0% {
+      transform: scale(1);
+    }
+    100% {
+      transform: scale(1.05);
+    }
+  }
+  
+  /* Grand Prize Section */
+  .jackpot-prize {
+    background: rgba(0, 0, 0, 0.6);
+    padding: 20px;
+    border-radius: 10px;
+    margin-bottom: 20px;
+    animation: prizeGlow 1.5s infinite alternate;
+  }
+  
+  @keyframes prizeGlow {
+    0% {
+      text-shadow: 0 0 5px #ffeb3b, 0 0 10px #ffeb3b, 0 0 15px #ffeb3b;
+    }
+    100% {
+      text-shadow: 0 0 10px #ff6a00, 0 0 15px #ff6a00, 0 0 20px #ff6a00;
+    }
+  }
+  
+  .grand-prize-title {
+    font-size: 1.6rem;
+    font-weight: bold;
+    color: #ffeb3b;
+  }
+  
+  .grand-prize-description {
+    font-size: 1.1rem;
+    color: #fff;
+  }
+  
+  .prize-amount {
+    font-size: 2.4rem;
+    font-weight: bold;
+    color: #ffeb3b;
+  }
+  
+  .prize-delivery-info {
+    font-size: 1.1rem;
+    font-weight: 300;
+    color: #ff9800;
+    margin-top: 10px;
+  }
+  
+  /* Countdown Box Styles (Horizontal) */
+  .countdown-wrapper {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    margin-bottom: 20px;
+  }
+  
+  .countdown {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    align-items: center;
+  }
+  
+  .countdown-box {
+    background: rgba(0, 0, 0, 0.7);
+    padding: 20px;
+    border-radius: 10px;
+    text-align: center;
+    width: 90px;
+    min-height: 90px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+  
+  .countdown-number {
+    font-size: 2rem;
+    font-weight: bold;
+    margin-bottom: 5px;
+  }
+  
+  .countdown-label {
+    font-size: 0.85rem;
+    font-weight: normal;
+  }
+  
+  /* Progress Bar */
+  .progress-bar-container {
+    width: 100%;
+    height: 8px;
+    background-color: #f1f1f1;
+    border-radius: 5px;
+    margin-top: 20px;
+  }
+  
+  .progress-bar-fill {
+    height: 100%;
+    background-color: #ffeb3b;
+    border-radius: 5px;
+  }
+  
+  .progress-text {
+    font-size: 1.1rem;
+    font-weight: bold;
+    color: #ff9800;
+    margin-top: 10px;
+  }
+  
+  /* Marketing Banner */
+  .marketing-banner {
+    background-color: rgba(0, 0, 0, 0.8);
+    padding: 20px;
+    border-radius: 10px;
+    margin-top: 30px;
+  }
+  
+  /* Trust-building Section */
+  .trust-section {
+    background-color: rgba(0, 0, 0, 0.8);
+    padding: 20px;
+    border-radius: 10px;
+    margin-top: 30px;
+  }
+  
+  .trust-section h3 {
+    font-size: 1.4rem;
+    font-weight: bold;
+  }
+  
+  .trust-section p {
+    font-size: 1rem;
+    color: #e0e0e0;
+  }
+  
+  /* Mobile Responsiveness */
+  @media (max-width: 600px) {
+    .countdown-wrapper {
+      flex-direction: column;
+      gap: 10px;
+    }
+  
+    .countdown-box {
+      width: 70px;
+      min-height: 70px;
+      padding: 12px;
+    }
+  
+    .countdown-number {
+      font-size: 1.5rem;
+    }
+  
+    .countdown-label {
+      font-size: 0.8rem;
+    }
+  
+    .cta-button {
+      font-size: 1rem;
+      padding: 10px 20px;
+    }
+  
+    .prize-amount {
+      font-size: 1.4rem;
+    }
+  
+    .progress-bar-container {
+      height: 6px;
+    }
+  
+    .progress-text {
+      font-size: 1rem;
+    }
+  }
+  

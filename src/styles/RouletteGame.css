@@ -1,0 +1,77 @@
+/* General styles for the roulette game */
+.roulette-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 40px 20px;
+    background-color: #0a0a0a;
+    border-radius: 15px;
+    box-shadow: 0 15px 30px rgba(0, 0, 0, 0.2);
+    text-align: center;
+    color: #fff;
+  }
+  
+  .roulette-title {
+    font-size: 40px;
+    font-weight: bold;
+    color: #ffcc00;
+    margin-bottom: 20px;
+    text-transform: uppercase;
+    text-shadow: 2px 2px 10px rgba(0, 0, 0, 0.5);
+  }
+  
+  /* Balance display */
+  .balance-container {
+    font-size: 24px;
+    font-weight: bold;
+    color: #fff;
+    text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.3);
+    margin-bottom: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  
+  .balance-container span {
+    margin-left: 10px;
+    color: #4CAF50;
+  }
+  
+  /* Cost per spin info */
+  .cost-info {
+    font-size: 18px;
+    font-weight: normal;
+    color: #FF5733;
+    text-align: center;
+    margin-top: 10px;
+  }
+  
+  /* Button style for spinning */
+  .spin-button {
+    background-color: #ffcc00;
+    color: #2c2c2c;
+    font-size: 20px;
+    font-weight: bold;
+    padding: 15px 30px;
+    border-radius: 50px;
+    text-decoration: none;
+    display: inline-block;
+    transition: background-color 0.3s ease, transform 0.3s ease;
+    margin-top: 30px;
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+  }
+  
+  .spin-button:hover {
+    background-color: #e5a800;
+    transform: scale(1.1);
+  }
+  
+  /* Prize text after spinning */
+  .prize-text {
+    font-size: 20px;
+    font-weight: bold;
+    color: #ff5733;
+    margin-top: 20px;
+    text-align: center;
+    text-shadow: 1px 1px 5px rgba(0, 0, 0, 0.3);
+  }
+  

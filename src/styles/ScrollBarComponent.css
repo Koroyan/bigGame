@@ -1,0 +1,40 @@
+.scroll-bar {
+    width: 100%;
+    height: 200px;
+    overflow: hidden;
+    position: relative;
+    border: 2px solid #f3ba2f; /* Binance Yellow */
+    border-radius: 10px;
+}
+
+.scroll-list {
+    display: flex;
+    flex-direction: column;
+    transition: transform 0.3s ease-out; /* Smooth transition for the final scroll */
+}
+
+.scroll-item {
+    padding: 20px;
+    font-size: 24px;
+    text-align: center;
+    color: #ffffff; /* White text color */
+    background-color: #2d2d2d; /* Dark background for items */
+}
+
+.center-item {
+    color: #ffd700; /* Gold color for the winner */
+    font-weight: bold;
+    border: 2px solid #ffd700; /* Highlight the winner */
+    border-radius: 5px;
+}
+
+.scroll-bar::before {
+    content: '';
+    position: absolute;
+    top: 50%; /* Position it in the middle */
+    left: 0;
+    right: 0;
+    height: 2px; /* Height of the center line */
+    background-color: #f3ba2f; /* Center line color */
+    z-index: 10; /* Make sure the line is on top */
+}

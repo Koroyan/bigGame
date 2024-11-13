@@ -1,0 +1,64 @@
+.flash-grid {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    width: 100%;
+    max-width: 600px; /* Limit max width for larger screens */
+    margin: 0 auto; /* Center the component */
+    background-color: #1c1c1c; /* Dark background */
+    border-radius: 10px; /* Rounded corners */
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.5); /* Soft shadow */
+}
+
+.grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(80px, 1fr)); /* Responsive grid */
+    gap: 10px; /* Space between grid items */
+    width: 100%;
+}
+
+.grid-item {
+    background-color: #2d2d2d; /* Darker background for grid items */
+    color: #ffffff; /* White text color */
+    padding: 15px; /* Padding for grid items */
+    border-radius: 5px; /* Rounded corners */
+    text-align: center;
+    transition: transform 0.3s, background-color 0.3s; /* Add hover effect */
+    border: 2px solid transparent; /* Border for animation */
+}
+
+.grid-item:hover {
+    background-color: #f3ba2f; /* Binance Yellow on hover */
+    transform: scale(1.05); /* Slightly enlarge on hover */
+}
+
+.grid-item.winner {
+    background-color: #ffd700; /* Gold background for the winner */
+    color: #2d2d2d; /* Dark text color for contrast */
+    font-weight: bold;
+    border: 2px solid #f3ba2f; /* Highlight the winner with Binance Yellow */
+}
+
+.winner-banner {
+    margin-top: 20px;
+    font-size: 24px;
+    color: #f3ba2f; /* Binance Yellow for the winner text */
+    background-color: #2d2d2d; /* Dark background for contrast */
+    padding: 10px;
+    border-radius: 5px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.5); /* Soft shadow */
+}
+
+/* Mobile styles */
+@media (max-width: 480px) {
+    .grid-item {
+        font-size: 14px; /* Smaller font size for mobile */
+        padding: 10px; /* Smaller padding */
+    }
+
+    .winner-banner {
+        font-size: 18px; /* Smaller font size for mobile */
+    }
+}

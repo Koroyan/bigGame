@@ -1,0 +1,27 @@
+.lottery-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-family: 'Courier New', Courier, monospace;
+    font-size: 3rem;
+    letter-spacing: 10px;
+    margin: 20px;
+    background-color: #2d2d2d;
+    border: 5px solid #f3ba2f; /* Binance Yellow */
+    border-radius: 10px;
+    padding: 20px;
+}
+
+.lottery-digit {
+    width: 50px;
+    height: 70px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #333;
+    color: #f3ba2f;
+    margin: 5px;
+    border-radius: 5px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+    font-weight: bold;
+}

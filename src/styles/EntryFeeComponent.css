@@ -1,0 +1,63 @@
+/* EntryFeeComponent.css */
+.entry-fee-container {
+    padding: 20px;
+    background-color: #f7f7f7;
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    width: 300px;
+    margin: auto;
+    text-align: center;
+  }
+  
+  h2 {
+    font-size: 24px;
+    margin-bottom: 10px;
+  }
+  
+  .fee-input-container {
+    margin-bottom: 15px;
+  }
+  
+  .fee-input-container label {
+    display: block;
+    margin-bottom: 5px;
+    font-size: 16px;
+  }
+  
+  .fee-input-container input {
+    padding: 8px;
+    font-size: 16px;
+    width: 100%;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+  }
+  
+  .submit-button {
+    background-color: #28a745;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+  }
+  
+  .submit-button:hover {
+    background-color: #218838;
+  }
+  
+  .error-message {
+    color: red;
+    margin-top: 10px;
+  }
+  
+  .entry-fee-info {
+    margin-top: 20px;
+    font-size: 14px;
+    color: #555;
+  }
+  
+  .entry-fee-info strong {
+    font-size: 16px;
+  }
+  

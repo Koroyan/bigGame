@@ -1,0 +1,39 @@
+/* FlashGridComponent.css */
+.grid-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(100px, 1fr)); /* Responsive grid layout */
+    gap: 20px; /* Space between grid items */
+    padding: 20px;
+    justify-items: center;
+    align-items: center;
+    width: 100%;
+    height: 100vh; /* Full height */
+    background-color: #1d1d1d; /* Dark background for contrast */
+}
+
+.grid-item {
+    width: 100px;
+    height: 100px;
+    background-color: #2d2d2d;
+    border-radius: 10px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 18px;
+    color: #ffffff;
+    transition: transform 0.2s ease-in-out, background-color 0.2s ease-in-out;
+    border: 2px solid #444;
+}
+
+.grid-item.flash {
+    background-color: #f3ba2f; /* Flash color (Binance yellow) */
+    color: #000000; /* Contrast text color when flashing */
+    transform: scale(1.1); /* Slight zoom effect */
+}
+
+.grid-item.winner {
+    background-color: #ffd700; /* Gold for the winner */
+    color: #000; /* Dark text for contrast */
+    font-weight: bold;
+    transform: scale(1.2); /* Highlight the winner with a larger size */
+}

@@ -1,0 +1,97 @@
+/* src/styles/Login.css */
+
+.login-container {
+    background: radial-gradient(circle, #1b2735, #090a0f);
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-family: 'Arial', sans-serif;
+}
+  
+.login-card {
+    background-color: #0d1b2a;
+    border-radius: 10px;
+    padding: 40px;
+    width: 100%;
+    max-width: 400px;
+    box-shadow: 0px 10px 20px rgba(0, 0, 0, 0.5);
+    text-align: center;
+}
+  
+.login-title {
+    font-size: 36px;
+    color: #ffd700;
+    margin-bottom: 10px;
+}
+  
+.login-subtitle {
+    font-size: 18px;
+    color: #d4af37;
+    margin-bottom: 20px;
+}
+  
+.login-input {
+    width: 100%;
+    padding: 12px;
+    margin: 10px 0;
+    border: none;
+    border-radius: 5px;
+    font-size: 16px;
+}
+  
+.login-button {
+    background-color: #28a745;
+    color: #fff;
+    padding: 12px 30px;
+    font-size: 18px;
+    border: none;
+    border-radius: 5px;
+    width: 100%;
+    margin-top: 20px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+  
+.login-button:hover {
+    background-color: #218838;
+}
+  
+.login-footer-text {
+    margin-top: 20px;
+    color: #ddd;
+}
+  
+.register-link {
+    color: #ffd700;
+    text-decoration: none;
+}
+  
+.register-link:hover {
+    text-decoration: underline;
+}
+
+/* Mobile Styles */
+@media (max-width: 768px) {
+    .login-title {
+        font-size: 28px; /* Smaller title for mobile */
+    }
+
+    .login-subtitle {
+        font-size: 16px; /* Smaller subtitle for mobile */
+    }
+
+    .login-input {
+        padding: 10px; /* Adjust padding for mobile */
+        font-size: 14px; /* Smaller font size for inputs */
+    }
+
+    .login-button {
+        padding: 10px 20px; /* Smaller button for mobile */
+        font-size: 16px; /* Smaller font size for button */
+    }
+
+    .login-footer-text {
+        font-size: 14px; /* Smaller footer text for mobile */
+    }
+}

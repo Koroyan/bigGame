@@ -1,0 +1,93 @@
+.bonus-wheel-container {
+    padding: 20px;
+    max-width: 400px;
+    margin: auto;
+    background: #f3f4f6;
+    border-radius: 10px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+.title {
+    text-align: center;
+    color: #3b82f6; /* Blue color similar to Binance */
+    font-size: 24px;
+    font-weight: bold;
+}
+
+.register-form {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 20px;
+}
+
+.name-input {
+    flex: 1;
+    padding: 10px;
+    border: 1px solid #3b82f6;
+    border-radius: 5px;
+    margin-right: 10px;
+}
+
+.register-button {
+    padding: 10px;
+    background: #3b82f6;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.register-button:hover {
+    background: #2563eb; /* Darker blue on hover */
+}
+
+.game-info {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 20px;
+    background: #e0f2fe;
+    padding: 10px;
+    border-radius: 5px;
+}
+
+.info-box {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.info-label {
+    font-size: 14px;
+    color: #3b82f6; /* Blue color */
+}
+
+.info-count {
+    font-size: 20px;
+    font-weight: bold;
+    color: #2563eb; /* Darker blue for count */
+}
+
+.scroll-bar-container {
+    margin: 20px 0;
+    text-align: center;
+}
+
+.start-button {
+    padding: 10px 20px;
+    background: #3b82f6;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.start-button:hover {
+    background: #2563eb; /* Darker blue on hover */
+}
+
+.winner {
+    text-align: center;
+    font-size: 20px;
+    color: #22c55e; /* Green color for winner */
+    margin-top: 20px;
+}

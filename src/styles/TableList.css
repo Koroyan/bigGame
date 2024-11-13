@@ -1,0 +1,175 @@
+/* src/styles/TableList.css */
+
+.table-list-container {
+    background: radial-gradient(circle, #1b2735, #090a0f);
+    padding: 20px;
+    font-family: 'Arial', sans-serif;
+    color: #ffffff;
+  }
+  
+  .title {
+    font-size: 36px;
+    color: #ffd700;
+    margin-bottom: 20px;
+    text-align: center;
+  }
+  
+  .create-table-link {
+    display: inline-block;
+    background-color: #28a745;
+    color: #fff;
+    padding: 10px 20px;
+    font-size: 18px;
+    border-radius: 5px;
+    text-align: center;
+    margin-bottom: 20px;
+    transition: background-color 0.3s ease;
+  }
+  
+  .create-table-link:hover {
+    background-color: #218838;
+  }
+  
+  .table-list {
+    list-style: none;
+    padding: 0;
+  }
+  
+  .table-item {
+    background-color: #0d1b2a;
+    border-radius: 10px;
+    padding: 20px;
+    margin-bottom: 15px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    box-shadow: 0px 10px 20px rgba(0, 0, 0, 0.5);
+    transition: transform 0.3s, box-shadow 0.3s;
+  }
+  
+  .table-item:hover {
+    transform: translateY(-3px);
+    box-shadow: 0px 15px 25px rgba(0, 0, 0, 0.6);
+  }
+  
+  .table-details {
+    flex-grow: 1;
+  }
+  
+  .table-id,
+  .table-cost,
+  .table-participants,
+  .table-timer {
+    display: block;
+    margin-bottom: 5px;
+  }
+  
+  .join-link {
+    background-color: #ffd700;
+    color: #0d1b2a;
+    padding: 10px 15px;
+    border-radius: 5px;
+    text-decoration: none;
+    transition: background-color 0.3s ease;
+  }
+  
+  .join-link:hover {
+    background-color: #e2c234;
+  }
+  
+  .marketing-banner {
+    background-color: #28a745;
+    padding: 20px;
+    border-radius: 10px;
+    margin-top: 30px;
+    text-align: center;
+    color: #ffffff;
+  }
+  
+  .marketing-banner h3 {
+    margin: 0 0 10px;
+  }
+  
+  .register-link {
+    display: inline-block;
+    background-color: #ffd700;
+    color: #0d1b2a;
+    padding: 10px 15px;
+    border-radius: 5px;
+    text-decoration: none;
+    margin-top: 10px;
+    transition: background-color 0.3s ease;
+  }
+  
+  .register-link:hover {
+    background-color: #e2c234;
+  }
+  
+  /* Mobile Styles */
+  @media (max-width: 768px) {
+    .title {
+      font-size: 28px; /* Smaller title for mobile */
+    }
+  
+    .create-table-link {
+      font-size: 16px; /* Smaller font size for button */
+      padding: 8px 15px; /* Adjust padding for mobile */
+    }
+  
+    .table-item {
+      flex-direction: column; /* Stack elements vertically on mobile */
+      align-items: flex-start; /* Align items to the start */
+    }
+  
+    .table-details {
+      margin-bottom: 10px; /* Add space between details and join link */
+    }
+  
+    .table-id,
+    .table-cost,
+    .table-participants,
+    .table-timer {
+      font-size: 14px; /* Smaller font size for details */
+    }
+  
+    .join-link {
+      width: 90%; /* Full width for join link button */
+      text-align: center; /* Center text in button */
+    }
+  
+    .marketing-banner {
+      font-size: 16px; /* Smaller font size for mobile */
+      padding: 15px; /* Adjust padding for mobile */
+    }
+  }
+  /* General adjustments for mobile responsiveness */
+@media (max-width: 768px) {
+    .login-card {
+        padding: 20px; /* Reduced padding for mobile */
+    }
+    
+    .login-title, .main-title {
+        font-size: 32px; /* Smaller title for mobile */
+    }
+    
+    .login-button, .main-button {
+        padding: 10px 20px; /* Smaller button size for mobile */
+        font-size: 16px; /* Smaller font size */
+    }
+    
+    .features-list {
+        flex-direction: column; /* Stack features vertically on mobile */
+        align-items: center; /* Center align items */
+    }
+    
+    .feature-item {
+        width: 90%; /* Full width for mobile */
+        margin-bottom: 20px; /* Space between feature items */
+    }
+
+    /* Marketing banner styles */
+    .marketing-banner {
+        padding: 15px; /* Adjust padding */
+        font-size: 18px; /* Smaller font size for mobile */
+    }
+}
