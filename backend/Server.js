@@ -7,6 +7,7 @@ const dotenv = require('dotenv');
 const authRoutes = require('./routes/auth');
 const tableRoutes = require('./routes/tables');
 const transactionRoutes = require('./routes/transactions');
+const transactionTrc20Routes = require('./routes/transactionstrc20');
 const gameRoutes = require('./routes/game');
 const rouletteRoutes = require('./routes/roulette');
 const User = require('./models/User');
@@ -51,6 +52,7 @@ io.on('connection', (socket) => {
 app.use('/api/auth', authRoutes);
 app.use('/api/tables', tableRoutes);
 app.use('/api/transactions', transactionRoutes);
+app.use('/api/transactionstrc20', transactionTrc20Routes);
 app.use('/api/game', gameRoutes);
 app.use('/api/roulette', rouletteRoutes);
 

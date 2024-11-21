@@ -1,4 +1,4 @@
-/* GameList.css */
+/* General Styles */
 .game-list-container {
   max-width: 1200px;
   margin: 0 auto;
@@ -8,8 +8,88 @@
   box-shadow: 0 15px 30px rgba(0, 0, 0, 0.2);
   text-align: center;
   color: #fff;
+    padding-bottom: 80px;
+    box-sizing: border-box;
+    animation: fadeIn 2s ease-out;
+    overflow: auto;
 }
 
+/* Balance Display */
+.balance-display {
+  background-color: rgba(255, 255, 255, 0.1);
+  padding: 10px 20px;
+  font-size: 18px;
+  font-weight: bold;
+  color: #ffcc00;
+  text-align: center;
+  border-radius: 8px;
+  margin-right: 20px;
+  display: inline-block;
+}
+
+/* Charge & Withdrawal Dropdown */
+.charge-withdrawal-btn {
+  position: relative;
+  display: inline-block;
+  background-color: #ffcc00;
+  color: #2c2c2c;
+  font-weight: bold;
+  font-size: 16px;
+  border-radius: 8px;
+  padding: 10px 20px;
+  cursor: pointer;
+}
+
+.charge-withdrawal-btn:hover {
+  background-color: #e5a800;
+}
+
+.charge-withdrawal-btn .dropdown {
+  display: none;
+  position: absolute;
+  top: 100%;
+  right: 0;
+  background-color: #ffcc00;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  width: 200px;
+}
+
+.charge-withdrawal-btn:hover .dropdown {
+  display: block;
+}
+
+.charge-withdrawal-btn .dropdown a {
+  color: #2c2c2c;
+  text-decoration: none;
+  padding: 10px;
+  display: block;
+  font-weight: bold;
+}
+
+.charge-withdrawal-btn .dropdown a:hover {
+  background-color: #e5a800;
+}
+
+/* Login Button */
+.login-btn {
+  background-color: #ff5733;
+  color: #fff;
+  font-size: 18px;
+  font-weight: bold;
+  padding: 15px 30px;
+  border-radius: 50px;
+  text-decoration: none;
+  display: inline-block;
+  transition: background-color 0.3s ease, transform 0.3s ease;
+}
+
+.login-btn:hover {
+  background-color: #e54b2e;
+  transform: scale(1.05);
+}
+
+/* Game List Title */
 .game-list-title {
   font-size: 40px;
   font-weight: bold;
@@ -98,6 +178,7 @@
   box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
 }
 
+/* Special game styles */
 .special-message {
   background-color: #ff5733;
   color: #fff;
@@ -164,37 +245,3 @@
     max-height: 180px;
   }
 }
-
-.custom-alert {
-  position: fixed;
-  top: 20px;
-  left: 50%;
-  transform: translateX(-50%);
-  background-color: rgba(255, 255, 255, 0.9);
-  color: #ff4081;
-  padding: 20px;
-  font-size: 18px;
-  border-radius: 10px;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-  text-align: center;
-  z-index: 1000; /* Ensures it is above other content */
-  max-width: 90%;
-  font-family: 'Arial', sans-serif;
-}
-
-.custom-alert p {
-  margin: 0;
-  font-weight: bold;
-  line-height: 1.5;
-}
-
-.custom-alert p::before {
-  content: "💖";
-  margin-right: 10px;
-}
-
-.custom-alert p::after {
-  content: "💖";
-  margin-left: 10px;
-}
-

@@ -1,0 +1,136 @@
+/* LandingPage.module.css */
+
+/* Layout and Global Body Styles */
+.landingPage {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  background-color: #000; /* Black background */
+  color: #fff; /* White text for contrast */
+  font-family: 'Arial', sans-serif;
+}
+
+/* Hero Section */
+.heroSection {
+  background: #222222; /* Dark gray background for contrast */
+  color: white;
+  padding: 80px 20px;
+  text-align: center;
+  flex-shrink: 0;
+  border-bottom: 2px solid #f0b90b; /* Binance yellow accent */
+}
+
+.heroContent {
+  max-width: 900px;
+  margin: 0 auto;
+}
+
+.heroTitle {
+  font-size: 3.5rem;
+  font-weight: bold;
+  margin-bottom: 20px;
+  animation-duration: 2s;
+  color: #f0b90b; /* Binance yellow */
+}
+
+.heroSubtitle {
+  font-size: 1.5rem;
+  margin-bottom: 30px;
+  font-weight: 400;
+  animation-duration: 2s;
+  color: #ccc; /* Light gray for text contrast */
+}
+
+.ctaButton {
+  padding: 15px 40px;
+  font-size: 1.25rem;
+  font-weight: bold;
+  color: #fff;
+  background-color: #f0b90b; /* Binance yellow */
+  border-radius: 30px;
+  text-decoration: none;
+  display: inline-block;
+  transition: background-color 0.3s ease, transform 0.3s ease;
+  margin-top: 10px;
+}
+
+.ctaButton:hover {
+  background-color: #e5a00d; /* Slightly darker yellow */
+  transform: translateY(-5px);
+}
+
+/* Game Highlight Section */
+.gameHighlight {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 30px;
+  padding: 40px 20px;
+  justify-items: center;
+}
+
+.gameCard {
+  background-color: #333; /* Dark gray card background */
+  border-radius: 12px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+  padding: 30px;
+  width: 100%;
+  max-width: 350px;
+  text-align: center;
+  transition: box-shadow 0.3s ease, transform 0.3s ease;
+  animation-duration: 2s;
+}
+
+.gameCard:hover {
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.4);
+  transform: translateY(-10px);
+}
+
+.gameTitle {
+  font-size: 2rem;
+  color: #f0b90b; /* Binance yellow for titles */
+  margin-bottom: 15px;
+}
+
+.gameDescription {
+  font-size: 1.1rem;
+  color: #ccc; /* Light gray text for description */
+  margin-bottom: 25px;
+}
+
+/* Footer Section */
+.mainFooter {
+  background-color: #222222;
+  color: white;
+  padding: 20px 0;
+  text-align: center;
+  font-size: 0.9rem;
+  position: relative;
+  bottom: 0;
+  width: 100%;
+}
+
+.mainFooter p {
+  margin: 0;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .heroTitle {
+    font-size: 2.5rem;
+  }
+
+  .gameHighlight {
+    grid-template-columns: 1fr;
+    padding: 20px 10px;
+  }
+
+  .gameCard {
+    padding: 20px;
+    margin-bottom: 20px;
+  }
+
+  .ctaButton {
+    padding: 12px 30px;
+    font-size: 1.1rem;
+  }
+}

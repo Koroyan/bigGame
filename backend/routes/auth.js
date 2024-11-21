@@ -6,6 +6,14 @@ const User = require('../models/User'); // Import the User model
 const { ethers } = require('ethers'); // Import ethers
 const { encrypt } = require('../utild/cryptoUtils');
 
+const {TronWeb} = require('tronweb');
+
+const tronWeb = new TronWeb({
+    fullHost: 'https://api.shasta.trongrid.io',
+    //headers: { 'TRON-PRO-API-KEY': '11be9221-b433-4e47-901c-851442eb4535' },
+    //privateKey: 'your private key'
+  });
+
 // Global variable for storing the user's wallet address
 let userWalletAddress = null;
 
@@ -33,10 +41,16 @@ router.post('/register', async (req, res) => {
     }
 
 
-    // Generate a new Ethereum wallet
-    const wallet = ethers.Wallet.createRandom(); // Create a random wallet
-    const walletAddress = wallet.address; // Get the wallet address
-    const privateKey = wallet.privateKey;
+    // Create the account using the transactionBuilder's createAccount method
+    const account = await tronWeb.createAccount();
+    
+    // Extract address and private key from the generated account
+    const walletAddress = account.address.base58;  // TRON wallet address (base58 encoded)
+    const privateKey = account.privateKey;   // Private key
+
+    // Log or return the wallet details
+    console.log('New TRON Wallet Address:', walletAddress);
+    console.log('Private Key:', privateKey);
 
 
     const hashedPassword = await bcrypt.hash(password, 10);

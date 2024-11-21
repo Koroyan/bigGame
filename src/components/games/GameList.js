@@ -1,5 +1,8 @@
 import React, { useState, useEffect } from "react";
-import "../../styles/GameList.css"; // Custom styles
+import "../../styles/GameList.css"; // Custom CSS
+import BottomNav from '../bottomnav/BottomNav'; // Import BottomNav
+import { fetchUser, fetchBalance } from "../utils/transactionUtils"; // Import common methods
+
 
 const GameList = () => {
   const [games] = useState([
@@ -31,15 +34,57 @@ const GameList = () => {
       link: "/chatgame", // Dynamic link for this game
     },
   ]);
+  
+  const [balance, setBalance] = useState(0); // State to store balance
+  const [isLoggedInState, setIsLoggedInState] = useState(false); // State to track login status
 
-  const isLoggedIn = () => {
-    return true; //localStorage.getItem("token") !== null;
+  // Check if the user is logged in
+  const isLoggedIn = async () => {
+    try {
+      const userResponse = await fetchUser(); // Fetch user details
+      if (userResponse.success) {
+        setIsLoggedInState(true);
+      } else {
+        setIsLoggedInState(false);
+      }
+    } catch (err) {
+      console.error("Error checking login status:", err);
+      setIsLoggedInState(false);
+    }
   };
 
+  // Fetch user balance when the component mounts
+  const getBalance = async () => {
+    try {
+      const userResponse = await fetchUser();
+      if (userResponse.success) {
+        const userWalletAddress = userResponse.data.walletAddress; // Assuming `walletAddress` is part of the response
+        const balanceResponse = await fetchBalance(userWalletAddress);
+        if (balanceResponse.success) {
+          setBalance(balanceResponse.data); // Set the balance state
+        } else {
+          alert('Failed to fetch balance');
+        }
+      }
+    } catch (err) {
+      console.error("Error fetching balance:", err);
+    }
+  };
 
+  // Use useEffect to call these functions when the component mounts
+  useEffect(() => {
+    isLoggedIn();
+    getBalance();
+  }, []);
 
   return (
     <div className="game-list-container">
+      {/* Header with Balance/Charge & Withdrawal Button */}
+      <div className="header-right">
+        <div className="balance-display">
+          <h4>{balance} USDT</h4> {/* Display balance */}
+        </div>
+      </div>
 
       <h2 className="game-list-title">🔥🔥 Play & Win Big! 🔥🔥</h2>
       <p className="game-list-description">
@@ -59,8 +104,7 @@ const GameList = () => {
               <p className="game-card-prize">Prize: {game.prize}</p>
               <p className="game-card-description">{game.description}</p>
 
-              {isLoggedIn() ? (
-                // Dynamic link for each game based on the `link` property
+              {isLoggedInState ? (
                 <a href={game.link} className="game-card-btn">Join Now</a>
               ) : (
                 <a href="/login" className="game-card-btn">Log In to Play</a>
@@ -75,8 +119,12 @@ const GameList = () => {
           ))
         )}
       </div>
+      
+      <BottomNav />
     </div>
   );
 };
 
 export default GameList;
+
+

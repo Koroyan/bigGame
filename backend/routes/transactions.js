@@ -80,6 +80,7 @@ router.post('/withdraw', authenticateToken, async (req, res) => {
     const balance = await contract.methods.balanceOf(from).call();
     const balanceBig = new BigNumber(balance);
 
+   console.log(balance);
     // Check for insufficient balance
     if (balanceBig.lt(new BigNumber(scaledAmount))) {
       return res.status(400).json({ error: 'Insufficient balance: ' + balanceBig.toString() });

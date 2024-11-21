@@ -3,7 +3,7 @@ import React from 'react';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import Register from './components/auth/register';
 import Login from './components/auth/login';
-import MainPage from './components/main/MainPage';
+import LandingPage from './components/games/LandingPage';
 import TableList from './components/tables/TableList';
 import JoinTable from './components/tables/JoinTable';
 import Profile from './components/profile/Profile'
@@ -29,7 +29,7 @@ function App() {
         <Route path='/account' element={<Profile/>}/>
         <Route path="/register" element={<Register />} />
         <Route path="/login" element={<Login />} />
-        <Route path="/" element={<MainPage />} />
+        <Route path="/" element={<LandingPage />} />
         <Route path="/join/:tableId" element={<JoinTable />} />
         <Route path="/transactionsHistory" element={<TransactionHistory />} />
         <Route path="/transactions" element={<Transactions />} />
