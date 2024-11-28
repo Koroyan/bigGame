@@ -1,174 +1,129 @@
+/* Chat game container */
 .chat-game-container {
-    width: 100%;
-    max-width: 380px;  /* Max width for mobile screens */
-    margin: 0 auto;
-    font-family: 'Arial', sans-serif;
-    text-align: center;
-    padding: 15px;
-    background-color: #0a0a0a; /* Dark background for a premium look */
-    border-radius: 20px;
-    box-shadow: 0 15px 30px rgba(0, 0, 0, 0.3); /* Soft shadow to make it pop */
-    height: 100vh;
-    display: flex;
-    flex-direction: column;
-    justify-content: flex-start; /* Align all items to the start to remove excess space */
-    color: white;
-    overflow: hidden;
+  width: 100%;
+  max-width: 380px;
+  margin: 0 auto;
+  font-family: 'Arial', sans-serif;
+  text-align: center;
+  padding: 15px;
+  background-color: #0a0a0a; /* Dark background for a premium look */
+  border-radius: 20px;
+  box-shadow: 0 15px 30px rgba(0, 0, 0, 0.3); /* Soft shadow for a polished appearance */
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  color: white;
+  overflow: hidden;
 }
 
-/* Updated balance display with exciting look */
+/* Balance display section */
 .balance-display {
-    background: linear-gradient(45deg, #ffcc00, #ff6f00); /* Gradient for more eye-catching look */
-    color: white;
-    font-size: 16px; /* Slightly larger text */
-    font-weight: bold;
-    padding: 8px 12px;
-    border-radius: 20px;
-    margin-bottom: 6px; /* Reduced bottom margin */
-    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
-    text-transform: uppercase;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: linear-gradient(45deg, #ffcc00, #ff6f00); /* Eye-catching gradient */
+  color: white;
+  font-size: 16px;
+  font-weight: bold;
+  padding: 12px 15px;
+  border-radius: 20px;
+  margin-bottom: 10px;
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
+  text-transform: uppercase;
+  text-shadow: 1px 1px 5px rgba(0, 0, 0, 0.5);
 }
 
-/* Header with updated, marketing-oriented text */
-h2 {
-    font-size: 14px;
-    color: #ffcc00;
-    margin-bottom: 6px; /* Slightly reduced margin */
-    text-transform: uppercase;
-    text-shadow: 2px 2px 10px rgba(0, 0, 0, 0.5);
+/* Withdraw button */
+.withdraw-dialog-button {
+  background-color: #ff6f00;
+  color: white;
+  font-size: 14px;
+  font-weight: bold;
+  padding: 8px 12px;
+  border: none;
+  border-radius: 15px;
+  cursor: pointer;
+  box-shadow: 0 8px 15px rgba(255, 111, 0, 0.5); /* Subtle glow effect */
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
 
-/* Chat box container with smooth scrolling */
+.withdraw-dialog-button:hover {
+  transform: translateY(-3px); /* Lift on hover */
+  box-shadow: 0 10px 20px rgba(255, 111, 0, 0.7); /* Stronger glow */
+}
+
+.withdraw-dialog-button:active {
+  transform: translateY(1px); /* Slight push on click */
+  box-shadow: 0 5px 10px rgba(255, 111, 0, 0.5); /* Reduced glow */
+}
+
+/* Chat box styling */
 .chat-box {
-    flex-grow: 1;
-    overflow-y: auto;
-    padding: 8px;
-    background-color: #1c1c1c;
-    border-radius: 15px;
-    border: 1px solid #333;
-    max-height: 35vh; /* Reduced height for mobile */
-    display: flex;
-    flex-direction: column;
-    justify-content: flex-start;
-    gap: 6px; /* Smaller gap between messages */
-    margin-bottom: 6px; /* Reduced bottom margin */
+  flex-grow: 1;
+  overflow-y: auto;
+  padding: 8px;
+  background-color: #1c1c1c;
+  border-radius: 15px;
+  border: 1px solid #333;
+  max-height: 35vh; /* Adjusted height for mobile */
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  gap: 6px;
+  scrollbar-width: thin;
+  scrollbar-color: #ffcc00 #1c1c1c; /* Custom scrollbar colors */
 }
 
-/* Chat message styling */
-.chat-message {
-    padding: 6px 12px;
-    border-radius: 20px;
-    font-size: 12px; /* Smaller font for compact layout */
-    word-wrap: break-word;
-}
-
-/* User's messages - aligned to the right */
+/* Chat message styles */
 .chat-message.user {
-    background-color: #4CAF50;
-    text-align: right;
+  align-self: flex-end;
+  background-color: #ff6f00;
+  color: white;
+  padding: 8px 12px;
+  border-radius: 15px;
+  box-shadow: 0 5px 10px rgba(255, 111, 0, 0.5);
+  max-width: 70%;
 }
 
-/* Bot's messages - aligned to the left */
 .chat-message.bot {
-    background-color: #f44336;
-    text-align: left;
+  align-self: flex-start;
+  background-color: #333;
+  color: white;
+  padding: 8px 12px;
+  border-radius: 15px;
+  box-shadow: 0 5px 10px rgba(0, 0, 0, 0.5);
+  max-width: 70%;
 }
 
-/* Emoji button grid styling */
+/* Emoji grid styling */
 .emoji-grid {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr); /* Show 3 emojis per row */
-    gap: 6px; /* Smaller gap */
-    margin-top: 6px; /* Reduced margin top */
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  justify-content: center;
+  margin-top: 10px;
 }
 
-/* Styling for emoji buttons */
 .emoji-button {
-    font-size: 26px; /* Slightly smaller emojis for mobile */
-    padding: 10px;
-    background-color: #fff;
-    border: 2px solid #ddd;
-    border-radius: 12px;
-    cursor: pointer;
-    transition: background-color 0.3s ease, transform 0.3s ease;
+  font-size: 24px;
+  padding: 10px;
+  border: none;
+  border-radius: 10px;
+  background-color: #1c1c1c;
+  color: white;
+  cursor: pointer;
+  box-shadow: 0 5px 10px rgba(0, 0, 0, 0.3);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
 
-.emoji-button:disabled {
-    opacity: 0.5;
+.emoji-button.prize {
+  background: linear-gradient(45deg, #ffcc00, #ff6f00);
+  color: black;
+  font-weight: bold;
 }
 
 .emoji-button:hover {
-    background-color: #ffeb3b;
-    transform: scale(1.1);
-}
-
-/* Prize-winning emojis styling */
-.emoji-button.prize {
-    border-color: #ffcc00;
-}
-
-.emoji-button.prize:hover {
-    background-color: #ffca28;
-    transform: scale(1.1);
-}
-
-/* Adjustments for winning prize text */
-.prize-text {
-    font-size: 14px;
-    font-weight: bold;
-    color: #ff5733;
-    margin-top: 8px;
-    text-align: center;
-    text-shadow: 1px 1px 5px rgba(0, 0, 0, 0.3);
-}
-
-/* Mobile-responsive adjustments */
-@media only screen and (max-width: 480px) {
-  /* Make sure container is not too wide */
-  .chat-game-container {
-    width: 100%;
-    max-width: 380px;
-    padding: 10px;
-  }
-
-  /* Adjust balance font size and padding for smaller screens */
-  .balance-display {
-    font-size: 14px;
-    padding: 6px 8px;
-  }
-
-  h2 {
-    font-size: 12px; /* Smaller header */
-    margin-bottom: 6px; /* Reduced margin */
-  }
-
-  /* Make chat-box more responsive and reduce height */
-  .chat-box {
-    max-height: 30vh; /* Reduced max height for more space */
-    padding: 8px;
-    margin-bottom: 6px; /* Reduced bottom margin */
-  }
-
-  .chat-message {
-    font-size: 11px; /* Smaller font for mobile */
-    padding: 6px 10px;
-  }
-
-  /* Adjust emoji button grid for mobile screens */
-  .emoji-grid {
-    grid-template-columns: repeat(3, 1fr); /* Show 3 emojis per row */
-    gap: 5px;
-  }
-
-  /* Adjust button sizes for smaller screens */
-  .emoji-button {
-    font-size: 24px; /* Slightly smaller buttons */
-    padding: 8px;
-  }
-
-  /* Adjust the winning prize text size */
-  .prize-text {
-    font-size: 12px;
-    padding: 6px;
-  }
+  transform: translateY(-3px);
+  box-shadow: 0 10px 20px rgba(255, 111, 0, 0.5);
 }

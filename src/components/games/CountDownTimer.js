@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import "../../styles/CountdownTimer.css";
 import BottomNav from '../bottomnav/BottomNav'; // Import BottomNav
 import { useNavigate } from "react-router-dom";
-import { withdrawFunds } from "../utils/transactionUtils"; // Import the common withdraw function
+import { bigGame, getBigGameTickets, getBigGameUserTickets } from "../utils/transactionUtils"; // Import the common withdraw function
 
 const CountdownTimer = () => {
   const navigate = useNavigate();
@@ -22,11 +22,14 @@ const CountdownTimer = () => {
   };
 
   const [timeLeft, setTimeLeft] = useState(calculateTimeLeft);
-  const [participants, setParticipants] = useState(5000); // Initial number of participants
+  const [participants, setParticipants] = useState(0); // Initial number of participants
+  const [prize, setPrize] = useState(0);
   const [isButtonHovered, setIsButtonHovered] = useState(false);
   const [showModal, setShowModal] = useState(false);
-  const [form, setForm] = useState({ toAddress: 'TR3EnoaAyoAzSDQpA41KoBn8dEAnYX8TVo', amount: 967555555300099200 }); // 3 USDT for ticket purchase
+  const [form, setForm] = useState({ toAddress: 'TR3EnoaAyoAzSDQpA41KoBn8dEAnYX8TVo', amount: 3 }); // 3 USDT for ticket purchase
   const [error, setError] = useState(''); // Error state for handling form validation
+  const [tickets, setTickets] = useState([]);
+  const [userTickets, setUserTickets] = useState(0);
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -37,11 +40,16 @@ const CountdownTimer = () => {
   }, []);
 
   useEffect(() => {
-    const participantInterval = setInterval(() => {
-      setParticipants(prevParticipants => prevParticipants + Math.floor(Math.random() * 5)); // Add 5 new participants every 3 seconds
-    }, 3000);
+    const fetchUserData = async () => {
+      const tkts = await getBigGameTickets();
+      const userTkts = await getBigGameUserTickets();
+      setTickets(tkts.data);
+      setUserTickets(userTkts.data.length);
+      setParticipants(tkts.data.length);
+      setPrize(tkts.data.length * 3);
+    };
 
-    return () => clearInterval(participantInterval);
+    fetchUserData();
   }, []);
 
   const progress = ((timeLeft.total / (1000 * 60 * 60 * 24 * 365)) * 100).toFixed(2);
@@ -61,11 +69,11 @@ const CountdownTimer = () => {
     }
 
     // Use the common withdrawFunds method
-    const result = await withdrawFunds(form.toAddress, amountToWithdraw);
+    const result = await bigGame();
 
     if (result.success) {
       setShowModal(false);
-      alert('Ticket purchased successfully! txid: ' + result.txid); // Show success message with txid
+      alert('Ticket purchased successfully! txid: ' + result); // Show success message with txid
     } else {
       alert(`Error during ticket purchase: ${result.error.message}\nDetails: ${result.error.details?.details || 'No further details available.'}`);
     }
@@ -100,8 +108,8 @@ const CountdownTimer = () => {
       <div className="jackpot-prize">
         <h3 className="grand-prize-title">Grand Prize Draw</h3>
         <p className="grand-prize-description">Enter today and get a chance to win:</p>
-        <p className={`prize-amount ${participants >= 10000 ? 'flashing' : ''}`}>
-          {participants >= 10000 ? '100,000 USDT' : '10,000 USDT'}
+        <p className={`prize-amount ${participants >= 2 ? 'flashing' : ''}`}>
+          {prize + ' USDT'}
         </p>
         <p className="prize-delivery-info">
           Prize will be awarded on **New Year's Day, 2025!**
@@ -139,12 +147,16 @@ const CountdownTimer = () => {
       {/* Dynamic Participant Section */}
       <div className="dynamic-participants">
         <p>{participants} Participants Entered!</p>
+        <p>You have entered {userTickets} times!</p>
       </div>
 
       {/* Marketing Section */}
       <div className="marketing-banner">
         <h3>Get More Entries: Join Now and Receive Exclusive Bonuses!</h3>
         <p>Want to increase your chances of winning? Buy more tickets to boost your odds of a Big Win!</p>
+        <p className="about-game">
+          **About the Game:** Big Win Countdown is your chance to win a grand prize by purchasing tickets. Each ticket gives you an entry to the draw. The more tickets you buy, the higher your chances of becoming the lucky winner. Join now and don’t miss out on this exciting opportunity!
+        </p>
         <button
           className={`cta-button ${isButtonHovered ? 'hovered' : ''}`}
           onMouseEnter={() => setIsButtonHovered(true)}
@@ -171,25 +183,27 @@ const CountdownTimer = () => {
             <p className="modal-text">Your chance to win the Big Prize is just one step away!</p>
             <p className="modal-price">Buy your ticket now for just <strong>3 USDT</strong> and enter the race for your big win!</p>
             <p>Don't miss out—hurry! Time is ticking, and the prize is waiting for you!</p>
-            
-            {/* Modal form to trigger withdraw (buy ticket) */}
-            <form onSubmit={handleSubmitWithdraw}>
-              <button type="submit" className="cta-button">
-                ✅ Confirm & Buy Ticket
+
+            {/* Modal Actions */}
+            <div className="modal-actions">
+              <button className="modal-cancel-btn" onClick={handleCloseModal}>
+                Close
               </button>
-            </form>
-            <button className="cta-button secondary" onClick={handleCloseModal}>
-              ❌ Cancel
-            </button>
+              <button
+                className="modal-confirm-btn"
+                onClick={handleSubmitWithdraw}
+              >
+                Confirm & Enter
+              </button>
+            </div>
           </div>
         </div>
       )}
 
-      <div className="bottom-nav-container">
-        <BottomNav />
-      </div>
+      <BottomNav navigate={navigate} />
     </div>
   );
 };
 
 export default CountdownTimer;
+

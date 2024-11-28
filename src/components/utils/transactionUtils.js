@@ -72,11 +72,11 @@ export const fetchBalance = async () => {
 };
 
 // Updated withdrawFunds method
-export const withdrawFunds = async (toAddress, amount) => {
+export const withdrawFunds = async (amount) => {
+    console.log('sgsgsg');
     try {
         const config = getAuthConfig(); // Get config with the token
         const response = await api.post('/transactionstrc20/withdraw', {
-            to: toAddress,
             amount: amount.toString(),
         }, config);
 
@@ -109,4 +109,240 @@ export const withdrawFunds = async (toAddress, amount) => {
         };
     }
 };
+
+
+export const charge = async (amount) => {
+    try {
+        const config = getAuthConfig(); // Get config with token
+        const response = await api.post(
+            '/game/deposit', // Backend endpoint for charging game balance
+            { amount },      // Send the amount to deposit
+            config
+        );
+
+        // Handle success response
+        return {
+            success: true,
+            message: response.data || 'Deposit successful!',
+        };
+    } catch (err) {
+        const errorMsg = err.response?.data?.message || err.message || 'Unknown error';
+        const statusCode = err.response?.status || 'Unknown status code';
+        const details = err.response?.data || null;
+
+        console.error('Error Charging game balance:', errorMsg, 'Status code:', statusCode);
+
+        // Return error response with message, status code, and details
+        return {
+            success: false,
+            error: {
+                message: errorMsg,
+                statusCode,
+                details,
+            },
+        };
+    }
+};
+
+
+
+export const reCharge = async (amount) => {
+    try {
+        const config = getAuthConfig();
+        const response = await api.post(
+            '/game/withdraw', 
+            { amount },      
+            config
+        );
+
+        // Handle success response
+        return {
+            success: true,
+            message: response.data || 'Withdrawal initiated successfully.',
+        };
+    } catch (err) {
+        const errorMsg = err.response?.data || err.message || 'Unknown error';
+        const statusCode = err.response?.status || 'Unknown status code';
+
+        console.error('Error Charging game balance:', errorMsg, 'Status code:', statusCode);
+
+        // Return error response
+        return {
+            success: false,
+            error: {
+                message: errorMsg,
+                statusCode,
+            },
+        };
+    }
+};
+
+// Spin Wheel functionality
+export const bigGame = async (amount) => {
+    try {
+        const config = getAuthConfig(); // Get config with token
+        const response = await api.post(
+            '/game/bigGame',     
+            config
+        );
+
+        if (response.data !== undefined) {
+            return { success: true, data: response.data }; // Return the prize index and other data
+        } else {
+            throw new Error('Invalid spin result from server');
+        }
+    } catch (err) {
+        const errorMsg = err.response?.data?.message || err.message || 'Unknown error';
+        const statusCode = err.response?.status || 'Unknown status code';
+        const details = err.response?.data || null;
+
+        console.error('Error spinning wheel:', errorMsg, 'Status code:', statusCode);
+
+        // Return error response with message, status code, and details
+        return {
+            success: false,
+            error: {
+                message: errorMsg,
+                statusCode,
+                details,
+            },
+        };
+    }
+};
+
+
+export const getBigGameTickets = async (amount) => {
+    try {
+        const config = getAuthConfig(); // Get config with token
+        const response = await api.get(
+            '/game/getBigGameTickets',     
+            config
+        );
+
+        if (response.data !== undefined) {
+            return { success: true, data: response.data }; // Return the prize index and other data
+        } else {
+            throw new Error('Invalid spin result from server');
+        }
+    } catch (err) {
+        const errorMsg = err.response?.data?.message || err.message || 'Unknown error';
+        const statusCode = err.response?.status || 'Unknown status code';
+        const details = err.response?.data || null;
+
+        console.error('Error spinning wheel:', errorMsg, 'Status code:', statusCode);
+
+        // Return error response with message, status code, and details
+        return {
+            success: false,
+            error: {
+                message: errorMsg,
+                statusCode,
+                details,
+            },
+        };
+    }
+};
+
+export const getBigGameUserTickets = async (amount) => {
+    try {
+        const config = getAuthConfig(); // Get config with token
+        const response = await api.get(
+            '/game/getBigGameUserTickets',     
+            config
+        );
+
+        if (response.data !== undefined) {
+            return { success: true, data: response.data }; // Return the prize index and other data
+        } else {
+            throw new Error('Invalid spin result from server');
+        }
+    } catch (err) {
+        const errorMsg = err.response?.data?.message || err.message || 'Unknown error';
+        const statusCode = err.response?.status || 'Unknown status code';
+        const details = err.response?.data || null;
+
+        console.error('Error spinning wheel:', errorMsg, 'Status code:', statusCode);
+
+        // Return error response with message, status code, and details
+        return {
+            success: false,
+            error: {
+                message: errorMsg,
+                statusCode,
+                details,
+            },
+        };
+    }
+};
+
+
+// Spin Wheel functionality
+export const spinWheel = async (amount) => {
+    try {
+        const config = getAuthConfig(); // Get config with token
+        const response = await api.post(
+            '/game/spin', // Backend endpoint for spinning the wheel
+            { 'amount':amount },          // Send the cost of the spin
+            config
+        );
+
+        if (response.data.prizeIndex !== undefined) {
+            return { success: true, data: response.data }; // Return the prize index and other data
+        } else {
+            throw new Error('Invalid spin result from server');
+        }
+    } catch (err) {
+        const errorMsg = err.response?.data?.message || err.message || 'Unknown error';
+        const statusCode = err.response?.status || 'Unknown status code';
+        const details = err.response?.data || null;
+
+        console.error('Error spinning wheel:', errorMsg, 'Status code:', statusCode);
+
+        // Return error response with message, status code, and details
+        return {
+            success: false,
+            error: {
+                message: errorMsg,
+                statusCode,
+                details,
+            },
+        };
+    }
+};
+
+export const chat = async (smile,amount) => {
+    try {
+        const config = getAuthConfig(); // Get config with token
+        const response = await api.post(
+            '/game/play', // Backend endpoint for spinning the wheel
+            { 'cost':amount,
+                'emoji':smile
+             },          // Send the cost of the spin
+            config
+        );
+
+        if (response.data.success !== undefined) {
+            return { success: true, data: response.data }; // Return the prize index and other data
+        } else {
+            throw new Error('Invalid spin result from server');
+        }
+    } catch (err) {
+        const errorMsg = err.response?.data?.message || err.message || 'Unknown error';
+        const statusCode = err.response?.status || 'Unknown status code';
+        const details = err.response?.data || null;
+
+        console.error('Error spinning wheel:', errorMsg, 'Status code:', statusCode);
+
+        // Return error response with message, status code, and details
+        return {
+            success: false,
+            error: {
+                message: errorMsg,
+                statusCode,
+                details,
+            },
+        };
+    }
+};
+
 

@@ -46,13 +46,24 @@ const Transactions = () => {
     const handleChange = (e) => {
         const { name, value } = e.target;
         setForm({ ...form, [name]: value });
-
+    
         if (name === 'amount') {
             const amount = parseFloat(value);
+    
+            // Calculate gas fees
             calculateGasFees(amount);
-            validateAmount(amount);
+    
+            // Check if the amount exceeds the balance
+            if (amount > balance) {
+                setError('The entered amount exceeds your available balance.');
+            } else if (amount <= 0) {
+                setError('Please enter a valid positive amount.');
+            } else {
+                setError(''); // Clear the error if valid
+            }
         }
     };
+    
 
     const validateAmount = (amount) => {
         if (amount > balance) {
@@ -71,17 +82,43 @@ const Transactions = () => {
     const handleSubmitWithdraw = async (e) => {
         e.preventDefault();
         if (error || !form.toAddress || !form.amount) return;
-
+    
         const amountToWithdraw = parseFloat(form.amount);
         if (isNaN(amountToWithdraw) || amountToWithdraw <= 0) {
             alert('Please enter a valid amount to withdraw.');
             return;
         }
-
+    
+        // Fetch the latest balance to ensure it's up to date
         try {
-            const result = await withdrawFunds(form.toAddress, amountToWithdraw);
+            const userBalance = await fetchBalance();
+            if (userBalance && userBalance.data !== undefined) {
+                setBalance(userBalance.data);
+    
+                // if (amountToWithdraw > userBalance.data) {
+                //     alert('Withdrawal amount exceeds your current balance.');
+                //     return;
+                // }
+            } else {
+                alert('Unable to fetch your current balance. Please try again later.');
+                return;
+            }
+        } catch (err) {
+            console.error('Error fetching balance:', err);
+            alert('An unexpected error occurred while checking your balance. Please try again later.');
+            return;
+        }
+    
+        try {
+            const result = await withdrawFunds( amountToWithdraw);
             if (result.success) {
                 alert('Withdrawal successful! txid: ' + result.data);
+    
+                // Update the balance after a successful withdrawal
+                const updatedBalance = await fetchBalance();
+                if (updatedBalance && updatedBalance.data !== undefined) {
+                    setBalance(updatedBalance.data);
+                }
             } else {
                 alert('Error during withdrawal: ' + result.error.message);
             }
@@ -90,6 +127,7 @@ const Transactions = () => {
             alert('An unexpected error occurred during the withdrawal process. Please try again later.');
         }
     };
+    
 
     const copyToClipboard = () => {
         const walletAddress = from;

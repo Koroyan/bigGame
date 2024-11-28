@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import '../../styles/ChatGame.css'; // Correct path to your CSS file
-import { getAuthConfig, fetchBalance, withdrawFunds, fetchUser } from '../utils/transactionUtils'; // Import common methods
+import { fetchUser, fetchBalance, withdrawFunds, spinWheel, charge,reCharge,chat } from '../utils/transactionUtils';
 import { useNavigate } from 'react-router-dom';
 
 const emojiChoices = [
@@ -46,6 +46,10 @@ const ChatGame = () => {
     amount: '5', // Amount of tokens to withdraw (set to 5 since that's the minimum to play)
     toAddress: 'TR3EnoaAyoAzSDQpA41KoBn8dEAnYX8TVo',
   });
+  const [showChargeDialog, setShowChargeDialog] = useState(true); // Show charge dialog initially
+  const [showWithdrawDialog, setShowWithdrawDialog] = useState(false); // Withdraw dialog toggle
+  const [chargeAmount, setChargeAmount] = useState(''); // Input value for charge amount
+  const [withdrawAmount, setWithdrawAmount] = useState(''); // Input value for withdraw amount
   const [messages, setMessages] = useState([]);
   const [isSending, setIsSending] = useState(false);
   const [balance, setBalance] = useState(0);
@@ -64,12 +68,9 @@ const ChatGame = () => {
             toAddress: userWalletAddress,
           }));
 
-          const balanceResponse = await fetchBalance();
-          if (balanceResponse.success) {
-            setBalance(balanceResponse.data);
-          } else {
-            setError('Failed to fetch balance');
-          }
+          const balanceResponse = userResponse.data.gameBalance;
+          setBalance(balanceResponse);
+    
         } else {
           setError('Failed to fetch user data');
           setIsLoggedIn(false);
@@ -84,19 +85,54 @@ const ChatGame = () => {
     fetchUserData();
   }, []);
 
-  // Function to get a random marketing message
-  const getRandomMarketingMessage = () => {
-    const marketingMessages = [
-      "🎉 You’re so close to a big win! Try sending more emojis! 💥",
-      "🚀 Keep going! Your next emoji could be the jackpot! 🎯",
-      "🌟 Keep chatting, and who knows, you might just get a surprise! 💰",
-    ];
-    return marketingMessages[Math.floor(Math.random() * marketingMessages.length)];
+  const handleCharge = async () => {
+    const amount = parseFloat(chargeAmount);
+    if (isNaN(amount) || amount <= 0) {
+      alert('Please enter a valid amount.');
+      return;
+    }
+
+    try {
+      const res = await charge(amount);
+      alert(res.message || 'Balance charged successfully!');
+      setShowChargeDialog(false); // Hide the dialog
+    } catch (err) {
+      alert('Error charging balance: ' + err.message);
+    }
   };
+
+  const handleWithdraw = async () => {
+    const amount = parseFloat(withdrawAmount);
+    if (isNaN(amount) || amount <= 0 || amount > balance) {
+      alert('Please enter a valid amount.');
+      return;
+    }
+
+    try {
+      const res = await reCharge(amount);
+      if (res.success) {
+        alert('Withdrawal successful!');
+        setBalance(balance - amount); // Update balance locally
+        setShowWithdrawDialog(false); // Hide the dialog
+      } else {
+        alert('Withdrawal failed: ' + res.error.message);
+      }
+    } catch (err) {
+      alert('Error during withdrawal: ' + err.message);
+    }
+  };
+
+  const handleCancel = () => {
+    setShowChargeDialog(false);
+    setShowWithdrawDialog(false);
+  };
+
 
   // Send emoji and determine prize
   const sendEmojiAndDeterminePrize = async (emoji) => {
     if (isSending) return; // Prevent sending if already in progress
+
+
 
     // Check if the user has enough balance
     if (balance < 5) {
@@ -105,42 +141,31 @@ const ChatGame = () => {
     }
 
     setIsSending(true);
+
+    // Deduct 5 USDT for playing
+    setBalance((prevBalance) => prevBalance - 5);
     try {
       // Attempt withdrawal
-      const withdrawResponse = await withdrawFunds(form.toAddress, form.amount);
-      if (!withdrawResponse.success) {
-        throw new Error(withdrawResponse.error.message || 'Withdrawal failed');
+      const chatResponse = await chat(emoji,5);
+      console.log(chatResponse);
+      if (!chatResponse.success) {
+        throw new Error(chatResponse.error.message || 'Withdrawal failed');
       }
-
-      // Deduct 5 USDT for playing
-      setBalance((prevBalance) => prevBalance - 5);
+    
 
       // Add the user's emoji message to the chat
       const userMessage = { sender: 'user', message: emoji };
       setMessages((prevMessages) => [...prevMessages, userMessage]);
 
-      setTimeout(() => {
-        const prize = getPrize(emoji);
-        let prizeAmount = 0;
-        if (prize !== 'No Prize') {
-          prizeAmount = parseFloat(prize.split(' ')[0]);
-          setBalance((prevBalance) => prevBalance + prizeAmount); // Update balance with the prize
-        }
+      setBalance((prevBalance) => prevBalance +chatResponse.data.prize);
 
-        // Prepare bot's response
-        let botResponse;
-        let marketingMessage = getRandomMarketingMessage();
-        if (prize === 'No Prize') {
-          botResponse = `Oops, you lost this time! 😞`;
-        } else {
-          botResponse = `🎉 Congratulations! You won: ${prize}! 🎉`;
-        }
+      setTimeout(() => {
 
         // Update chat messages with bot response
         setMessages((prevMessages) => [
           ...prevMessages,
-          { sender: 'bot', message: botResponse },
-          { sender: 'bot', message: marketingMessage },
+          { sender: 'bot', message: chatResponse.data.botMessage },
+          { sender: 'bot', message: chatResponse.data.marketingMessage },
         ]);
         setIsSending(false);
       }, 1500); // Simulate delay
@@ -164,8 +189,50 @@ const ChatGame = () => {
 
   return (
     <div className="chat-game-container">
+        {/* Charge Dialog */}
+      {showChargeDialog && (
+        <div className="modal">
+          <div className="modal-content">
+            <h3>Charge Your Balance</h3>
+            <p>Enter the amount to charge:</p>
+            <input
+              type="number"
+              value={chargeAmount}
+              onChange={(e) => setChargeAmount(e.target.value)}
+              placeholder="Amount (USDT)"
+              className="charge-input"
+            />
+            <div className="modal-buttons">
+              <button onClick={handleCharge} className="charge-button">Charge</button>
+              <button onClick={handleCancel} className="cancel-button">Cancel</button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Withdraw Dialog */}
+      {showWithdrawDialog && (
+        <div className="modal">
+          <div className="modal-content">
+            <h3>Withdraw Funds</h3>
+            <p>Enter the amount to withdraw:</p>
+            <input
+              type="number"
+              value={withdrawAmount}
+              onChange={(e) => setWithdrawAmount(e.target.value)}
+              placeholder="Amount (USDT)"
+              className="withdraw-input"
+            />
+            <div className="modal-buttons">
+              <button onClick={handleWithdraw} className="withdraw-button">Withdraw</button>
+              <button onClick={handleCancel} className="cancel-button">Cancel</button>
+            </div>
+          </div>
+        </div>
+      )}
       <div className="balance-display">
         <strong>Balance: </strong>{balance} USDT
+        <button onClick={() => setShowWithdrawDialog(true)} className="withdraw-dialog-button">Withdraw</button>
       </div>
 
       <h2>Chat with Me, and If I Like It, I’ll Reward You! 💸</h2>

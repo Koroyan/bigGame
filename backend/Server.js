@@ -14,6 +14,8 @@ const User = require('./models/User');
 const Table = require('./models/Table');
 const cors = require('cors');
 const os = require('os');
+const { checkTransactionStatus } = require('./utild/trc20trxUtils');
+
 
 dotenv.config();
 
@@ -21,7 +23,7 @@ const app = express();
 
 // CORS configuration
 app.use(cors({
-    origin: 'http://localhost:3000', // Replace with your frontend's URL if needed
+    origin: 'http://192.168.0.79:3000', // Replace with your frontend's URL if needed
     methods: 'GET,POST,PUT,DELETE',
     allowedHeaders: 'Content-Type,Authorization'
 }));
@@ -33,19 +35,11 @@ const server = http.createServer(app);
 // Socket.IO with CORS settings
 const io = socketIo(server, {
     cors: {
-        origin: 'http://localhost:3000', // Replace with your frontend's URL if needed
+        origin: 'http://192.168.0.79:3000', // Replace with your frontend's URL if needed
         methods: ['GET', 'POST'],
         allowedHeaders: ['Content-Type', 'Authorization'],
         credentials: true,
     },
-});
-
-io.on('connection', (socket) => {
-    console.log('New client connected');
-
-    socket.on('disconnect', () => {
-        console.log('Client disconnected');
-    });
 });
 
 // Define your routes
@@ -61,71 +55,13 @@ app.use((err, req, res, next) => {
   res.status(500).send('Something went wrong!'); // Send a generic error message to the client
 });
 
-
-mongoose.connect(process.env.MONGO_URI,{
+mongoose.connect(process.env.MONGO_URI, {
   useNewUrlParser: true,
   useUnifiedTopology: true,
   serverSelectionTimeoutMS: 50000 
 })
     .then(() => console.log('MongoDB connected'))
     .catch(err => console.error('MongoDB connection error:', err));
-// Automatically select a winner and notify all clients
-
-
-const automaticWinnerSelection = async () => {
-    const tables = await Table.find(); // Fetch all tables
-
-    for (const table of tables) {
-        if (new Date() > table.expiresAt && table.players.length > 0) {
-            const randomIndex = crypto.randomInt(0, table.players.length);
-            const winnerId = table.players[randomIndex];
-
-            // Update the table with the winner
-            table.winners.push(winnerId);
-            await table.save();
-
-            // Notify all clients about the winner
-            io.emit('winnerSelected', { tableId: table._id, winnerId });
-        }
-    }
-};
-
-const game = async () => {
-  const tables = await Table.find(); 
-  for (const table of tables) {
-    // Check if the table has expired, has players, and no winners yet
-    if (new Date() > table.expiresAt && table.players.length > 0 && table.winners.length === 0) {
-      console.log(table._id);
-      io.emit('hiiiii');
-
-      const randomIndex = crypto.randomInt(0, table.players.length); // Select a random winner
-      const winnerId = table.players[randomIndex];
-      // Generate a random number between 0 and 99 for a 1% chance
-      if (Math.floor(Math.random() * 100) > 0) {
-        io.emit('winnerSelected', {
-          tableId: table._id,
-          players: table.players,
-          winnerId: winnerId,
-          isGameFinished: false // Game is not finished
-        });
-      } else {
-        io.emit('winnerSelected', {
-          tableId: table._id,
-          players: table.players,
-          winnerId: winnerId,
-          isGameFinished: true // Game is finished
-        });
-         // Update the table with the winner
-         table.winners.push(winnerId);
-         await table.save();
-      }
-    }
-  }
-};
-
-
-// Schedule the winner selection to run every minute
- setInterval(game, 1000);
 
 // Function to get the local machine's IP address
 const getLocalIpAddress = () => {
@@ -153,3 +89,56 @@ const PORT = process.env.PORT || 5000;
 server.listen(PORT, () => {
     console.log(`Server running on  ${ipAddress}:${PORT}`);
 });
+
+
+// Check for pending transactions and update game balance if confirmed
+const checkPendingTransactions = async () => {
+  const users = await User.find({ 'transactions.status': 'pending' });
+
+  for (const user of users) {
+    console.log(user.email);
+    for (const transaction of user.transactions) {
+      if (transaction.status === 'pending') {
+        try {
+          // Check the status of the transaction on the TRON network
+          const status = await checkTransactionStatus(transaction.txHash);
+
+          console.log(status)
+          if (status === 'SUCCESS') {
+            // Add deposit amount to user's game balance after confirmation
+
+            if(transaction.type==='deposit'){
+            user.gameBalance += transaction.amount;
+            user.balance-=transaction.amount
+            }else{
+              user.gameBalance -= transaction.amount;
+              user.balance+=transaction.amount
+            }
+
+            // Update the transaction status to 'confirmed'
+            transaction.status = 'confirmed';
+            await user.save();
+          } else if(status === 'FAILED') {
+            // Mark transaction as failed if not successful
+            transaction.status = 'failed';
+            await user.save();
+          }else{}
+        } catch (err) {
+          console.error('Error checking transaction:', err);
+        }
+      }
+    }
+  }
+  
+  console.log('Pending transactions checked and updated.');
+};
+
+// Run checkPendingTransactions every 10 seconds
+setInterval(async () => {
+  try {
+    await checkPendingTransactions();
+    console.log('Checked pending transactions');
+  } catch (error) {
+    console.error('Error during pending transaction check:', error);
+  }
+}, 10000); // 10000 milliseconds = 10 seconds
